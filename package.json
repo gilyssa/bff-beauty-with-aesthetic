@@ -1,0 +1,26 @@
+{
+  "name": "bff-beauty-with-aesthetic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilyssa/bff-beauty-with-aesthetic.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gilyssa/bff-beauty-with-aesthetic/issues"
+  },
+  "homepage": "https://github.com/gilyssa/bff-beauty-with-aesthetic#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.4"
+  }
+}
