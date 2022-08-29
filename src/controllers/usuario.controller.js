@@ -20,7 +20,7 @@ const criar = async function(req, res, next) {
             throw response;
         }
 
-        res.send(response);
+        res.send(['Usuário ' + response.nome + ' criado com sucesso!']);
     } catch (error) {
         return next(error);
     }
