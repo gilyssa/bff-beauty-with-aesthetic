@@ -1,8 +1,12 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+var express = require('express');
+var app = express();
+var Objetos = { id: 201721 };
 
-app.listen(3000, () => {console.log('Listening on port 3000')});
+app.get('/', function(req, res) {
+  res.status(201).json({ Objetos});
 
+});
+
+app.listen(3000, function() {
+  console.log('App de Exemplo escutando na porta 3000!');
+});
