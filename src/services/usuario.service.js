@@ -15,7 +15,13 @@ const criar = async function(usuario) {
 
   usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT)
   const usuarioCriado = await usuarioRepository.criar(usuario);
-  return usuarioCriado;
+
+  return {
+    id: usuarioCriado.id,
+    usuario: usuarioCriado.email,
+    createdAt: usuarioCriado.createdAt,
+    messageAprove: "Usuario adicionado com sucesso"
+  }
 }
 
 const login = async function(usuario) {
@@ -35,13 +41,18 @@ const login = async function(usuario) {
 
   const token = sign({
     id: usuarioLogin.id
-  }, process.env.SECRET, {});
+  }, process.env.SECRET, {expiresIn: 600});
+  // 1 hora 3600
+  
   delete usuarioLogin.senha
+  
+  const data = new Date().toLocaleString();
 
   return {
     auth: true,
-    usuario: usuarioLogin,
+    usuario: usuarioLogin.id,
     token: token,
+    dataEmissao: data,
   }
 }
 

@@ -13,12 +13,12 @@ router.post('/', usuarioValidator.criar(), usuarioController.criar)
 
 router.post('/login', usuarioValidator.login(), usuarioController.login)
 
-router.get('/',  usuarioController.encontrarTodos)
+router.get('/', verifyJWT , usuarioController.encontrarTodos)
 
-router.get('/:id',  usuarioValidator.encontrarPorId(), usuarioController.encontrarPorId)
+router.get('/:id', verifyJWT , usuarioValidator.encontrarPorId(), usuarioController.encontrarPorId)
 
-router.put('/:id',  usuarioValidator.atualizar(), usuarioController.atualizar)
+router.put('/:id', verifyJWT , usuarioValidator.atualizar(), usuarioController.atualizar)
 
-router.delete('/:id',  usuarioValidator.deletar(), usuarioController.deletar)
+router.delete('/:id', verifyJWT , usuarioValidator.deletar(), usuarioController.deletar)
 
 module.exports = router;

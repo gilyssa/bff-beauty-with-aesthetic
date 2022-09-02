@@ -12,7 +12,7 @@ const handleError = require('./src/middlewares/handleError');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/usuarios', usuarioRoute);
-app.use('/api/procedimento', procedimentoRoute);
+app.use('/api/procedimentos', procedimentoRoute);
 app.use(handle404Error);  
 app.use(handleError);
 

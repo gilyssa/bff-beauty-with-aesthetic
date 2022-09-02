@@ -98,7 +98,11 @@ const deletar = async function(req, res, next) {
             throw response;
         }
 
-        res.send(response);
+        res.send( {
+            nome: response.nome,
+            messageResponse: 'Procedimento Deletado'
+        
+        } );
     } catch (error) {
         next(error)
     }

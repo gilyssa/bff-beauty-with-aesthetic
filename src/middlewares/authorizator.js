@@ -1,17 +1,17 @@
 const { verify } = require('jsonwebtoken');
 require('dotenv').config();
 
-//const verifyJWT = function(req, res, next) {
-//  const token = req.headers['token'];
-//
-//  if (!token) return res.status(401).send(['Usuário inválido'])
-//
-//  verify(token, process.env.SECRET, (err, decoded) => {
-//    if (err) return res.status(401).send(['Usuário inválido']);
-//
-//    req.usuario_id = decoded.id;
-//    next();
-//  })
-//}
+const verifyJWT = function(req, res, next) {
+  const token = req.headers['token'];
 
-//module.exports = verifyJWT;
+  if (!token) return res.status(401).send(['Acesso não permitido. Faça login novamente'])
+
+  verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) return res.status(401).send(['Acesso não permitido. Faça login novamente']);
+
+    req.usuario_id = decoded.id;
+    next();
+  })
+}
+
+module.exports = verifyJWT;

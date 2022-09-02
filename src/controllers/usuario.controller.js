@@ -20,7 +20,7 @@ const criar = async function(req, res, next) {
             throw response;
         }
 
-        res.send(['Usuário ' + response.nome + ' criado com sucesso!']);
+        res.send(response);
     } catch (error) {
         return next(error);
     }
@@ -48,6 +48,7 @@ const login = async function(req, res, next) {
     }
 }
 
+
 const atualizar = async function(req, res, next) {
     try {
         const errors = validationResult(req);
@@ -59,7 +60,8 @@ const atualizar = async function(req, res, next) {
         }
 
         const response = await usuarioService.atualizar({
-            nome: req.body.nome
+            nome: req.body.nome,
+            email: req.body.email
         }, req.params.id);
 
         if (response && response.message) {
@@ -119,7 +121,11 @@ const deletar = async function(req, res, next) {
             throw response;
         }
 
-        res.send(response);
+        res.send( {
+            email: response.email,
+            messageResponse: 'Usuário Deletado'
+        
+        } );
     } catch (error) {
         next(error)
     }
