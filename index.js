@@ -13,11 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/usuarios', usuarioRoute);
 app.use('/api/procedimentos', procedimentoRoute);
-app.use(handle404Error);  
+app.use(handle404Error);
 app.use(handleError);
 
-
-app.listen(process.env.PORTA, () => { console.log('Api escutando na porta 3001!') })
-
-
-  
+app.listen(process.env.PORT || process.env.PORTA, () => {
+  console.log('Api escutando na porta 3001!');
+});
