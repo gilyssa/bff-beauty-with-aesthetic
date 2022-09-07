@@ -17,7 +17,7 @@ app.use(handle404Error);
 app.use(handleError);
 
 
-app.listen(process.env.PORTA, () => { console.log('Api escutando na porta 3000!') })
+app.listen(process.env.PORTA, () => { console.log('Api escutando na porta 3001!') })
 
 
   
