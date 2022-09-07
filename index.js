@@ -4,6 +4,12 @@ const bodyParser = require('body-parser');
 const handle404Error = require('./src/middlewares/handle404Error');
 const app = express();
 
+const cors = require('cors');
+var corsOptions = {
+  origin: 'http://localhost:3000',
+};
+app.use(cors(corsOptions));
+
 const usuarioRoute = require('./src/routes/usuario.route');
 const procedimentoRoute = require('./src/routes/procedimento.route');
 
