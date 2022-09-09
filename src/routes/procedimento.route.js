@@ -9,14 +9,34 @@ const procedimentoValidator = require('../validators/procedimento.validator');
 
 //Exemplo: na requisição abaixo o cliente solicita criar um usuario no banco. Primeiramente validamos com o procedimentoValidator.criar()
 //após isso entramos na controller -> passa pela service -> e ao final faz a alteração no banco na repository para
-router.post('/', verifyJWT , procedimentoValidator.criar(), procedimentoController.criar)
+router.post(
+  '/',
+  verifyJWT,
+  procedimentoValidator.criar(),
+  procedimentoController.criar,
+);
 
-router.get('/', verifyJWT , procedimentoController.encontrarTodos)
+router.get('/', verifyJWT, procedimentoController.encontrarTodos);
 
-router.get('/:id', verifyJWT ,   procedimentoValidator.encontrarPorId(), procedimentoController.encontrarPorId)
+router.get(
+  '/:id',
+  verifyJWT,
+  procedimentoValidator.encontrarPorId(),
+  procedimentoController.encontrarPorId,
+);
 
-router.put('/:id', verifyJWT ,   procedimentoValidator.atualizar(), procedimentoController.atualizar)
+router.put(
+  '/:id',
+  verifyJWT,
+  procedimentoValidator.atualizar(),
+  procedimentoController.atualizar,
+);
 
-router.delete('/:id', verifyJWT ,   procedimentoValidator.deletar(), procedimentoController.deletar)
+router.delete(
+  '/:id',
+  verifyJWT,
+  procedimentoValidator.deletar(),
+  procedimentoController.deletar,
+);
 
 module.exports = router;

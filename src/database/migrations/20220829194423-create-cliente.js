@@ -6,60 +6,60 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       nome: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       data_nascimento: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       cpf: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       telefone: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       tipo_sanguineo: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       alergias: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       usuario_id: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-				  model: {
-						tableName: 'usuarios'
-					},
-					key: 'id'
-				}
-			},
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'usuarios',
+          },
+          key: 'id',
+        },
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
         allowNull: true,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('clientes');
-  }
+  },
 };

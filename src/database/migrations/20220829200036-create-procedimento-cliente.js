@@ -6,43 +6,43 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       procedimento_id: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-				  model: {
-						tableName: 'procedimentos'
-					},
-					key: 'id'
-				}
-			},
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'procedimentos',
+          },
+          key: 'id',
+        },
+      },
       cliente_id: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-				  model: {
-						tableName: 'clientes',
-					},
-					key: 'id'
-				}
-			},
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'clientes',
+          },
+          key: 'id',
+        },
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
         allowNull: true,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('procedimento_clientes');
-  }
+  },
 };

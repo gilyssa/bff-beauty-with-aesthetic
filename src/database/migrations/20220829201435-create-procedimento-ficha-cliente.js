@@ -6,53 +6,53 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       procedimento_cliente_id: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-				  model: {
-						tableName: 'procedimento_clientes'
-					},
-					key: 'id'
-				}
-			},
-      data_diluicao:{
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.DATE
+        references: {
+          model: {
+            tableName: 'procedimento_clientes',
+          },
+          key: 'id',
+        },
       },
-      volume_diluicao:{
+      data_diluicao: {
         allowNull: false,
-        type: Sequelize.FLOAT
+        type: Sequelize.DATE,
       },
-      num_lote:{
+      volume_diluicao: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.FLOAT,
       },
-      data_validade:{
+      num_lote: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING,
       },
-      data_aplicacao:{
+      data_validade: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+      },
+      data_aplicacao: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deletedAt: {
         allowNull: true,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('procedimento_ficha_clientes');
-  }
+  },
 };
