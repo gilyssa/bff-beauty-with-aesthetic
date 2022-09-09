@@ -4,16 +4,21 @@ const { validatorMessage } = require('../utils/errorMessage');
 const criar = function () {
 	return[
 		body('nome', validatorMessage('Nome')).exists().bail().isString(),
-		body('email', validatorMessage('Email')).exists().bail().isString(),
-		body('senha', validatorMessage('Senha')).exists().bail().isString(),
+		body('email', validatorMessage('Email')).exists().bail().isEmail(),
+		body('senha', validatorMessage('Senha')).exists().bail().isString().isLength({ min: 8}),
 	]
 }
 
 const atualizar = function () {
-	return[
-		body('nome', validatorMessage('Nome')).exists().bail().isString(),
-		param('id', validatorMessage('Id')).exists().bail().isInt(),
-	]
+	if (body('email').exists()){
+		return [
+			body('email', validatorMessage('Email')).exists().bail().isEmail(),
+			param('id', validatorMessage('Id')).exists().bail().isInt()
+		]
+	}
+	else{ 
+		return param('id', validatorMessage('Id')).exists().bail().isInt()
+	}
 }
 
 const encontrarPorId = function() {
@@ -34,6 +39,7 @@ const login = function () {
 		body('senha', validatorMessage('Senha')).exists().bail().isString(),
 	]
 }
+
 
 module.exports = {
 	criar: criar,

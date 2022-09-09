@@ -6,46 +6,66 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 
-const criar = async function(usuario) {
-  const existeUsuario = await usuarioRepository.encontrarUmPorWhere({ email: usuario.email });
+const criar = async function (usuario) {
+  const existeUsuario = await usuarioRepository.encontrarUmPorWhere({
+    email: usuario.email,
+  });
 
   if (existeUsuario) {
     return createError(409, 'Usuário já existe');
   }
 
-  usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT)
+  usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT);
   const usuarioCriado = await usuarioRepository.criar(usuario);
-  return usuarioCriado;
-}
 
-const login = async function(usuario) {
+  return {
+    id: usuarioCriado.id,
+    usuario: usuarioCriado.email,
+    createdAt: usuarioCriado.createdAt,
+    messageAprove: 'Usuario adicionado com sucesso',
+  };
+};
+
+const login = async function (usuario) {
   const usuarioLogin = await usuarioRepository.encontrarUmPorWhere({
-    email: usuario.email
+    email: usuario.email,
   });
 
   if (!usuarioLogin) {
     return createError(401, 'Usuário inválido');
   }
 
-  const comparacaoSenha = await bcrypt.compare(usuario.senha, usuarioLogin.senha);
+  const comparacaoSenha = await bcrypt.compare(
+    usuario.senha,
+    usuarioLogin.senha,
+  );
 
   if (!comparacaoSenha) {
     return createError(401, 'Usuário inválido');
   }
 
-  const token = sign({
-    id: usuarioLogin.id
-  }, process.env.SECRET, {});
-  delete usuarioLogin.senha
+  const token = sign(
+    {
+      id: usuarioLogin.id,
+    },
+    process.env.SECRET,
+    { expiresIn: 3600 },
+  );
+  // 1 hora 3600
+
+  delete usuarioLogin.senha;
+
+  const data = new Date().toLocaleString();
 
   return {
     auth: true,
-    usuario: usuarioLogin,
+    usuario: usuarioLogin.id,
     token: token,
-  }
-}
+    dataEmissao: data,
+  };
+};
 
-const atualizar = async function(usuario, id) {
+const atualizar = async function (usuario, id) {
   const existeUsuario = await usuarioRepository.encontrarPorId(id);
 
   if (!existeUsuario) {
@@ -55,14 +75,14 @@ const atualizar = async function(usuario, id) {
   await usuarioRepository.atualizar(usuario, id);
 
   return await usuarioRepository.encontrarPorId(id);
-}
+};
 
-const encontrarTodos = async function() {
+const encontrarTodos = async function () {
   const usuarios = await usuarioRepository.encontrarTodos();
   return usuarios;
-}
+};
 
-const encontrarPorId = async function(id) {
+const encontrarPorId = async function (id) {
   const usuario = await usuarioRepository.encontrarPorId(id);
 
   if (!usuario) {
@@ -70,9 +90,9 @@ const encontrarPorId = async function(id) {
   }
 
   return usuario;
-}
+};
 
-const deletar = async function(id) {
+const deletar = async function (id) {
   const usuario = await usuarioRepository.encontrarPorId(id);
 
   if (!usuario) {
@@ -81,7 +101,7 @@ const deletar = async function(id) {
 
   await usuarioRepository.deletar(id);
   return usuario;
-}
+};
 
 module.exports = {
   criar: criar,
@@ -90,4 +110,4 @@ module.exports = {
   encontrarPorId: encontrarPorId,
   deletar: deletar,
   login: login,
-}
+};
