@@ -19,9 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Procedimento_Cliente.init(
-    {
-      nome: DataTypes.STRING,
-    },
+    {},
     {
       sequelize,
       modelName: 'Procedimento_Cliente',

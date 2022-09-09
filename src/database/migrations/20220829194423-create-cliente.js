@@ -18,7 +18,7 @@ module.exports = {
       },
       data_nascimento: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       cpf: {
         allowNull: false,
