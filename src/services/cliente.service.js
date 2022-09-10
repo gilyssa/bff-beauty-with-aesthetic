@@ -1,6 +1,7 @@
 const clienteRepository = require('../repositories/cliente.repository');
 const createError = require('http-errors');
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 
 const criar = async function (cliente) {
   const existeCliente = await clienteRepository.encontrarUmPorWhere({
@@ -10,6 +11,19 @@ const criar = async function (cliente) {
   if (existeCliente) {
     return createError(409, 'Cliente já existe');
   }
+  cliente.nome = await bcrypt.hash(cliente.nome, ~~process.env.SALT);
+  cliente.email = await bcrypt.hash(cliente.email, ~~process.env.SALT);
+  cliente.data_nascimento = await bcrypt.hash(
+    cliente.data_nascimento,
+    ~~process.env.SALT,
+  );
+  cliente.cpf = await bcrypt.hash(cliente.cpf, ~~process.env.SALT);
+  cliente.telefone = await bcrypt.hash(cliente.telefone, ~~process.env.SALT);
+  cliente.tipo_sanguineo = await bcrypt.hash(
+    cliente.tipo_sanguineo,
+    ~~process.env.SALT,
+  );
+  cliente.alergias = await bcrypt.hash(cliente.alergias, ~~process.env.SALT);
 
   const repositoryCriado = await clienteRepository.criar(cliente);
   return repositoryCriado;

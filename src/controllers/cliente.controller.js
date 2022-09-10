@@ -1,6 +1,8 @@
 const clienteService = require('../services/cliente.service');
 const { validationResult } = require('express-validator');
 const createError = require('http-errors');
+const { validarCPF, validarTelefone } = require('../utils/errorMessage');
+//const parse = require('telefone/parse');
 
 const criar = async function (req, res, next) {
   try {
@@ -12,13 +14,37 @@ const criar = async function (req, res, next) {
       });
     }
 
+    const validacaoCPF = validarCPF(req.body.cpf);
+
+    if (!validacaoCPF) {
+      throw createError(422, {
+        message: 'Cpf inválido.',
+      });
+    }
+
+    //const validacaoTelefone = parse(req.body.telefone);
+
+    //if (!validacaoTelefone) {
+    //  throw createError(422, {
+    //    message: 'Telefone inválido.',
+    //  });
+    //}
+
+    const validacaoTelefone = validarTelefone(req.body.telefone);
+
+    if (!validacaoTelefone) {
+      throw createError(422, {
+        message: 'Telefone inválido.',
+      });
+    }
+
     const response = await clienteService.criar(req.body);
 
     if (response && response.message) {
       throw response;
     }
 
-    res.send(['Cliente ' + response.nome + ' criado com sucesso!']);
+    res.send(['Cliente criado com sucesso!']);
   } catch (error) {
     return next(error);
   }
