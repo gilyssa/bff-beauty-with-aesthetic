@@ -28,8 +28,8 @@ const atualizar = async function (procedimento, id) {
 };
 
 const encontrarTodos = async function () {
-  const usuarios = await procedimentoRepository.encontrarTodos();
-  return usuarios;
+  const procedimentos = await procedimentoRepository.encontrarTodos();
+  return procedimentos;
 };
 
 const encontrarPorId = async function (id) {
