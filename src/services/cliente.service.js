@@ -1,7 +1,7 @@
 const clienteRepository = require('../repositories/cliente.repository');
 const createError = require('http-errors');
 require('dotenv').config();
-const bcrypt = require('bcrypt');
+const { decrypt, encrypt } = require('../utils/encryptDecrypt');
 
 const criar = async function (cliente) {
   const existeCliente = await clienteRepository.encontrarUmPorWhere({
@@ -11,20 +11,36 @@ const criar = async function (cliente) {
   if (existeCliente) {
     return createError(409, 'Cliente já existe');
   }
-  cliente.nome = await bcrypt.hash(cliente.nome, ~~process.env.SALT);
-  cliente.email = await bcrypt.hash(cliente.email, ~~process.env.SALT);
-  cliente.data_nascimento = await bcrypt.hash(
-    cliente.data_nascimento,
-    ~~process.env.SALT,
-  );
-  cliente.cpf = await bcrypt.hash(cliente.cpf, ~~process.env.SALT);
-  cliente.telefone = await bcrypt.hash(cliente.telefone, ~~process.env.SALT);
-  cliente.tipo_sanguineo = await bcrypt.hash(
-    cliente.tipo_sanguineo,
-    ~~process.env.SALT,
-  );
-  cliente.alergias = await bcrypt.hash(cliente.alergias, ~~process.env.SALT);
+  //fazendo a criptografia dos dados
+  clienteNome = cliente.nome;
+  clienteNomeCipher = encrypt(clienteNome);
+  cliente.nome = JSON.stringify(clienteNomeCipher);
 
+  clienteEmail = cliente.email;
+  clienteEmailCipher = encrypt(clienteEmail);
+  cliente.email = JSON.stringify(clienteEmailCipher);
+
+  clienteData_nascimento = cliente.data_nascimento;
+  clienteData_nascimentoCipher = encrypt(clienteData_nascimento);
+  cliente.data_nascimento = JSON.stringify(clienteData_nascimentoCipher);
+
+  cliente_CPF = cliente.cpf;
+  cliente_CPFCipher = encrypt(cliente_CPF);
+  cliente.cpf = JSON.stringify(cliente_CPFCipher);
+
+  clienteTelefone = cliente.telefone;
+  clienteTelefoneCipher = encrypt(clienteTelefone);
+  cliente.telefone = JSON.stringify(clienteTelefoneCipher);
+
+  clienteTipo_sanguineo = cliente.tipo_sanguineo;
+  clienteTipo_sanguineoCipher = encrypt(clienteTipo_sanguineo);
+  cliente.tipo_sanguineo = JSON.stringify(clienteTipo_sanguineoCipher);
+
+  clienteAlergias = cliente.alergias;
+  clienteAlergiasCipher = encrypt(clienteAlergias);
+  cliente.alergias = JSON.stringify(clienteAlergiasCipher);
+
+  //salvando no banco os dados criptografados
   const repositoryCriado = await clienteRepository.criar(cliente);
   return repositoryCriado;
 };
@@ -44,6 +60,8 @@ const atualizar = async function (cliente, id) {
 const encontrarTodos = async function () {
   const cliente = await clienteRepository.encontrarTodos();
   return cliente;
+  //  clienteAlergiasDecipher = decrypt(JSON.parse(cliente.alergias));
+  // cliente.alergias = clienteAlergiasDecipher;
 };
 
 const encontrarPorId = async function (id) {

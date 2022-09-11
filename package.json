@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.4",
-    "telefone": "^1.2.2"
+    "telefone": "^1.2.2",
+    "validar-telefone": "^0.1.0"
   },
   "devDependencies": {
     "sequelize-cli": "^6.4.1"

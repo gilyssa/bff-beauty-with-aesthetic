@@ -2,7 +2,7 @@ const clienteService = require('../services/cliente.service');
 const { validationResult } = require('express-validator');
 const createError = require('http-errors');
 const { validarCPF, validarTelefone } = require('../utils/errorMessage');
-//const parse = require('telefone/parse');
+const parse = require('telefone/parse');
 
 const criar = async function (req, res, next) {
   try {
@@ -30,7 +30,7 @@ const criar = async function (req, res, next) {
     //  });
     //}
 
-    const validacaoTelefone = validarTelefone(req.body.telefone);
+    const validacaoTelefone = parse(req.body.telefone);
 
     if (!validacaoTelefone) {
       throw createError(422, {
