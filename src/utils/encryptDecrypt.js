@@ -5,10 +5,10 @@
 const crypto = require('crypto');
 
 // Difining algorithm
-const algorithm = 'aes-256-cbc';
+const algorithm = process.env.ALGORITHM;
 
 // Defining key
-const key = '7wUuZ5hACUubh4BwvPW5oSadpa316qZT';
+const key = process.env.KEY;
 
 // Defining iv
 const iv = crypto.randomBytes(16);
@@ -25,13 +25,16 @@ function encrypt(text) {
   encrypted = Buffer.concat([encrypted, cipher.final()]);
 
   // Returning iv and encrypted data
-  return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
+  return {
+    iv: iv.toString(process.env.TYPE),
+    encryptedData: encrypted.toString(process.env.TYPE),
+  };
 }
 
 // A decrypt function
 function decrypt(text) {
-  let iv = Buffer.from(text.iv, 'hex');
-  let encryptedText = Buffer.from(text.encryptedData, 'hex');
+  let iv = Buffer.from(text.iv, process.env.TYPE);
+  let encryptedText = Buffer.from(text.encryptedData, process.env.TYPE);
 
   // Creating Decipher
   let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
