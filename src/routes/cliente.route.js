@@ -9,27 +9,27 @@ const clienteValidator = require('../validators/cliente.validator');
 
 //Exemplo: na requisição abaixo o cliente solicita criar um usuario no banco. Primeiramente validamos com o clienteValidator.criar()
 //após isso entramos na controller -> passa pela service -> e ao final faz a alteração no banco na repository para
-router.post('/', clienteValidator.criar(), clienteController.criar);
+router.post('/', verifyJWT, clienteValidator.criar(), clienteController.criar);
 
-router.get('/', clienteController.encontrarTodos);
+router.get('/', verifyJWT, clienteController.encontrarTodos);
 
 router.get(
   '/:id',
-  //  verifyJWT,
+  verifyJWT,
   clienteValidator.encontrarPorId(),
   clienteController.encontrarPorId,
 );
 
 router.put(
   '/:id',
-  //  verifyJWT,
+  verifyJWT,
   clienteValidator.atualizar(),
   clienteController.atualizar,
 );
 
 router.delete(
   '/:id',
-  //  verifyJWT,
+  verifyJWT,
   clienteValidator.deletar(),
   clienteController.deletar,
 );
