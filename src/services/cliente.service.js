@@ -2,18 +2,29 @@ const clienteRepository = require('../repositories/cliente.repository');
 const createError = require('http-errors');
 require('dotenv').config();
 const { decrypt, encrypt } = require('../utils/encryptDecrypt');
+// Esse service de clientes ficou maior pois precisava da criptografia no banco, se analisarmos no banco todos os dados são criptografados
 
 const criar = async function (cliente) {
-  cliente_CPF = cliente.cpf;
-  cliente_CPFCipher = encrypt(cliente_CPF);
-  cliente.cpf = JSON.stringify(cliente_CPFCipher);
-
-  const existeCliente = await clienteRepository.encontrarUmPorWhere({
-    cpf: cliente.cpf,
+  //antes de criar um cliente validamos se ele existe, primeiro puxamos todos os clientes daquele usuario
+  let clientes = await clienteRepository.encontrarTodosPorWhere({
     usuario_id: cliente.usuario_id,
   });
+  //populamos uma lista com todos os cpf's existentes
+  var listaCPF = clientes.map(function (clientes) {
+    cliente_CPF = JSON.parse(clientes.cpf);
+    clienteCPFDecipher = decrypt(cliente_CPF);
 
-  if (existeCliente) {
+    return {
+      cpf: clienteCPFDecipher,
+    };
+  });
+  // validamos se algum desses cpf's é igual ao que o usuario está tentando inserir
+  var clienteEncontrado = listaCPF.find(function (listaCPF) {
+    return listaCPF.cpf === cliente.cpf;
+  });
+
+  //se for diferente de undefined ( ou seja, encontrou algum) ele retorna o erro, caso não ele segue o fluxo
+  if (clienteEncontrado != undefined) {
     return createError(409, 'Cliente já existe');
   }
   //fazendo a criptografia dos dados
@@ -24,6 +35,10 @@ const criar = async function (cliente) {
   clienteEmail = cliente.email;
   clienteEmailCipher = encrypt(clienteEmail);
   cliente.email = JSON.stringify(clienteEmailCipher);
+
+  cliente_CPF = cliente.cpf;
+  cliente_CPFCipher = encrypt(cliente_CPF);
+  cliente.cpf = JSON.stringify(cliente_CPFCipher);
 
   clienteData_nascimento = cliente.data_nascimento;
   clienteData_nascimentoCipher = encrypt(clienteData_nascimento);
@@ -59,6 +74,7 @@ const atualizar = async function (cliente, id) {
 };
 
 const encontrarTodos = async function () {
+  //nessa função precisamos pegar os dados do banco e descriptografar para mostrar na api
   let cliente = await clienteRepository.encontrarTodos();
   var clientesTodos = cliente.map(function (cliente) {
     clienteNome = JSON.parse(cliente.nome);
@@ -99,11 +115,10 @@ const encontrarTodos = async function () {
 
   cliente = clientesTodos;
   return cliente;
-  //  clienteAlergiasDecipher = decrypt(JSON.parse(cliente.alergias));
-  // cliente.alergias = clienteAlergiasDecipher;
 };
 
 const encontrarPorId = async function (id) {
+  //fazemos o mesmo da função anterior, mas pegando apenas o dado do ID que foi passado
   const cliente = await clienteRepository.encontrarPorId(id);
 
   if (!cliente) {

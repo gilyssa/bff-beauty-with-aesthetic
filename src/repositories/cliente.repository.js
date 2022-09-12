@@ -28,6 +28,13 @@ const encontrarUmPorWhere = async function (where) {
   return cliente;
 };
 
+const encontrarTodosPorWhere = async function (where) {
+  const cliente = await Cliente.findAll({
+    where: where,
+  });
+  return cliente;
+};
+
 const deletar = async function (id) {
   return await Cliente.destroy({ where: { id: id } });
 };
@@ -39,4 +46,5 @@ module.exports = {
   encontrarPorId: encontrarPorId,
   encontrarUmPorWhere: encontrarUmPorWhere,
   deletar: deletar,
+  encontrarTodosPorWhere: encontrarTodosPorWhere,
 };
