@@ -23,10 +23,24 @@ router.get(
 );
 
 router.put(
-  '/:id',
+  '/nome/:id',
   verifyJWT,
-  usuarioValidator.atualizar(),
-  usuarioController.atualizar,
+  usuarioValidator.atualizarNome(),
+  usuarioController.atualizarNome,
+);
+
+router.put(
+  '/email/:id',
+  verifyJWT,
+  usuarioValidator.atualizarEmail(),
+  usuarioController.atualizarEmail,
+);
+
+router.put(
+  '/senha/:id',
+  verifyJWT,
+  usuarioValidator.atualizarSenha(),
+  usuarioController.atualizarSenha,
 );
 
 router.delete(

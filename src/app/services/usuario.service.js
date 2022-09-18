@@ -65,13 +65,38 @@ const login = async function (usuario) {
   };
 };
 
-const atualizar = async function (usuario, id) {
+const atualizarNome = async function (usuario, id) {
   const existeUsuario = await usuarioRepository.encontrarPorId(id);
 
   if (!existeUsuario) {
     return createError(404, 'Usuário não existe');
   }
 
+  await usuarioRepository.atualizar(usuario, id);
+
+  return await usuarioRepository.encontrarPorId(id);
+};
+
+const atualizarEmail = async function (usuario, id) {
+  const existeUsuario = await usuarioRepository.encontrarPorId(id);
+
+  if (!existeUsuario) {
+    return createError(404, 'Usuário não existe');
+  }
+
+  await usuarioRepository.atualizar(usuario, id);
+
+  return await usuarioRepository.encontrarPorId(id);
+};
+
+const atualizarSenha = async function (usuario, id) {
+  const existeUsuario = await usuarioRepository.encontrarPorId(id);
+
+  if (!existeUsuario) {
+    return createError(404, 'Usuário não existe');
+  }
+
+  usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT);
   await usuarioRepository.atualizar(usuario, id);
 
   return await usuarioRepository.encontrarPorId(id);
@@ -105,7 +130,9 @@ const deletar = async function (id) {
 
 module.exports = {
   criar: criar,
-  atualizar: atualizar,
+  atualizarNome: atualizarNome,
+  atualizarEmail: atualizarEmail,
+  atualizarSenha: atualizarSenha,
   encontrarTodos: encontrarTodos,
   encontrarPorId: encontrarPorId,
   deletar: deletar,
