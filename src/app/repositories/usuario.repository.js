@@ -1,6 +1,6 @@
 //ultima camada
 // funções que fazem alterações no banco
-const { Usuario } = require('../database/models/index');
+const { Usuario } = require('../../database/models/index');
 
 //adicionando um novo usuário
 const criar = async function (usuario) {

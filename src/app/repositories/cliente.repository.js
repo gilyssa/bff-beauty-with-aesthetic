@@ -1,4 +1,4 @@
-const { Cliente } = require('../database/models/index');
+const { Cliente } = require('../../database/models/index');
 
 const criar = async function (cliente) {
   const clienteCriado = await Cliente.create(cliente);

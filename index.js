@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const handle404Error = require('./src/middlewares/handle404Error');
+const handle404Error = require('./src/app/middlewares/handle404Error');
 const app = express();
 
 const cors = require('cors');
@@ -10,11 +10,11 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const usuarioRoute = require('./src/routes/usuario.route');
-const procedimentoRoute = require('./src/routes/procedimento.route');
-const clienteRoute = require('./src/routes/cliente.route');
-const indexRoute = require('./src/routes/index.route');
-const handleError = require('./src/middlewares/handleError');
+const usuarioRoute = require('./src/app/routes/usuario.route');
+const procedimentoRoute = require('./src/app/routes/procedimento.route');
+const clienteRoute = require('./src/app/routes/cliente.route');
+const indexRoute = require('./src/app/routes/index.route');
+const handleError = require('./src/app/middlewares/handleError');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

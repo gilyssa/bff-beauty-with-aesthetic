@@ -1,4 +1,4 @@
-const { Procedimento } = require('../database/models/index');
+const { Procedimento } = require('../../database/models/index');
 
 const criar = async function (procedimento) {
   const procedimentoCriado = await Procedimento.create(procedimento);
