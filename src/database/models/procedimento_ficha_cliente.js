@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Procedimento_Ficha_Cliente',
       tableName: 'procedimento_ficha_clientes',
+      paranoid: true,
     },
   );
   return Procedimento_Ficha_Cliente;

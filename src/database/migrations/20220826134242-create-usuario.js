@@ -20,6 +20,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      codigo: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

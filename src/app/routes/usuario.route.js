@@ -50,4 +50,18 @@ router.delete(
   usuarioController.deletar,
 );
 
+router.post(
+  '/recovery',
+  verifyJWT,
+  usuarioValidator.atualizar(),
+  usuarioController.atualizar,
+);
+
+router.post(
+  '/email',
+  verifyJWT,
+  usuarioValidator.atualizar(),
+  usuarioController.atualizar,
+);
+
 module.exports = router;
