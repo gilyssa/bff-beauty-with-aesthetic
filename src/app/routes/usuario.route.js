@@ -52,16 +52,10 @@ router.delete(
 
 router.post(
   '/recovery',
-  verifyJWT,
-  usuarioValidator.atualizar(),
-  usuarioController.atualizar,
+  usuarioValidator.recovery(),
+  usuarioController.recovery,
 );
 
-router.post(
-  '/email',
-  verifyJWT,
-  usuarioValidator.atualizar(),
-  usuarioController.atualizar,
-);
+router.post('/email', usuarioValidator.email(), usuarioController.email);
 
 module.exports = router;

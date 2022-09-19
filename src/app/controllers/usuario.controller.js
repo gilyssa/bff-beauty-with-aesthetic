@@ -183,6 +183,30 @@ const deletar = async function (req, res, next) {
   }
 };
 
+const email = async function (req, res, next) {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      throw createError(422, {
+        errors: errors.array(),
+      });
+    }
+
+    const response = await usuarioService.email({
+      email: req.body.email,
+    });
+
+    if (response && response.message) {
+      throw response;
+    }
+
+    res.send(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   criar: criar,
   encontrarTodos: encontrarTodos,
@@ -192,4 +216,5 @@ module.exports = {
   atualizarSenha: atualizarSenha,
   deletar: deletar,
   login: login,
+  email: email,
 };

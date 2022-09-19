@@ -5,6 +5,7 @@ const createError = require('http-errors');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { sign } = require('jsonwebtoken');
+const { sendEmail } = require('../../modules/sendgrid/sent');
 
 const criar = async function (usuario) {
   const existeUsuario = await usuarioRepository.encontrarUmPorWhere({
@@ -102,6 +103,33 @@ const atualizarSenha = async function (usuario, id) {
   return await usuarioRepository.encontrarPorId(id);
 };
 
+const email = async function (usuario) {
+  const existeUsuario = await usuarioRepository.encontrarUmPorWhere({
+    email: usuario.email,
+  });
+
+  if (!existeUsuario) {
+    return createError(404, 'Usuário não existe');
+  }
+
+  let getRandom = Math.floor(Math.random() * (999999 - 100000) + 100000);
+
+  if (Math.sign(getRandom) === -1) {
+    getRandom = getRandom * -1;
+  }
+
+  let codigo = {
+    codigo: getRandom,
+  };
+
+  console.log(getRandom);
+
+  await usuarioRepository.atualizarEmail(codigo, usuario);
+  sendEmail(usuario, getRandom);
+
+  return await usuarioRepository.encontrarPorId(id);
+};
+
 const encontrarTodos = async function () {
   const usuarios = await usuarioRepository.encontrarTodos();
   return usuarios;
@@ -137,4 +165,5 @@ module.exports = {
   encontrarPorId: encontrarPorId,
   deletar: deletar,
   login: login,
+  email: email,
 };

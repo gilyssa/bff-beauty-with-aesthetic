@@ -15,6 +15,12 @@ const atualizar = async function (usuario, id) {
   });
 };
 
+const atualizarEmail = async function (usuario, email) {
+  await Usuario.update(usuario, {
+    where: { email: email.email },
+  });
+};
+
 //listar todos os usuários
 const encontrarTodos = async function () {
   const usuarios = await Usuario.findAll();
@@ -47,4 +53,5 @@ module.exports = {
   encontrarPorId: encontrarPorId,
   encontrarUmPorWhere: encontrarUmPorWhere,
   deletar: deletar,
+  atualizarEmail: atualizarEmail,
 };

@@ -46,6 +46,14 @@ const login = function () {
   ];
 };
 
+const email = function () {
+  return [body('email', validatorMessage('Email')).exists().bail().isString()];
+};
+
+const recovery = function () {
+  return [body('codigo', validatorMessage('Código')).exists().bail().isInt()];
+};
+
 module.exports = {
   criar: criar,
   encontrarPorId: encontrarPorId,
@@ -54,4 +62,6 @@ module.exports = {
   atualizarSenha: atualizarSenha,
   deletar: deletar,
   login: login,
+  email: email,
+  recovery: recovery,
 };
