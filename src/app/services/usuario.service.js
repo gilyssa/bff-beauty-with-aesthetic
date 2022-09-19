@@ -127,7 +127,35 @@ const email = async function (usuario) {
   await usuarioRepository.atualizarEmail(codigo, usuario);
   sendEmail(usuario, getRandom);
 
-  return await usuarioRepository.encontrarPorId(id);
+  return {
+    messageAprove: 'Email enviado com sucesso.',
+  };
+};
+
+const recovery = async function (usuario) {
+  const existeUsuario = await usuarioRepository.encontrarUmPorWhere({
+    codigo: usuario.codigo,
+  });
+
+  if (!existeUsuario) {
+    return createError(404, 'Código Inválido');
+  }
+
+  let usuarioSenha = {
+    senha: await bcrypt.hash(usuario.senha, ~~process.env.SALT),
+  };
+
+  await usuarioRepository.atualizarPorCodigo(usuarioSenha, usuario.codigo);
+
+  let limparCodigo = {
+    codigo: null,
+  };
+
+  await usuarioRepository.atualizarPorCodigo(limparCodigo, usuario.codigo);
+
+  return {
+    messageAprove: 'Senha alterada com sucesso, retorne ao login',
+  };
 };
 
 const encontrarTodos = async function () {
@@ -166,4 +194,5 @@ module.exports = {
   deletar: deletar,
   login: login,
   email: email,
+  recovery: recovery,
 };

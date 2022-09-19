@@ -51,7 +51,14 @@ const email = function () {
 };
 
 const recovery = function () {
-  return [body('codigo', validatorMessage('Código')).exists().bail().isInt()];
+  return [
+    body('codigo', validatorMessage('Código')).exists().bail().isInt(),
+    body('senha', validatorMessage('Senha'))
+      .exists()
+      .bail()
+      .isString()
+      .isLength({ min: 8 }),
+  ];
 };
 
 module.exports = {

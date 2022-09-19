@@ -207,6 +207,31 @@ const email = async function (req, res, next) {
   }
 };
 
+const recovery = async function (req, res, next) {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      throw createError(422, {
+        errors: errors.array(),
+      });
+    }
+
+    const response = await usuarioService.recovery({
+      codigo: req.body.codigo,
+      senha: req.body.senha,
+    });
+
+    if (response && response.message) {
+      throw response;
+    }
+
+    res.send(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   criar: criar,
   encontrarTodos: encontrarTodos,
@@ -217,4 +242,5 @@ module.exports = {
   deletar: deletar,
   login: login,
   email: email,
+  recovery: recovery,
 };

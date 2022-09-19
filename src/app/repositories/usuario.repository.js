@@ -15,6 +15,12 @@ const atualizar = async function (usuario, id) {
   });
 };
 
+const atualizarPorCodigo = async function (usuario, codigo) {
+  await Usuario.update(usuario, {
+    where: { codigo: codigo },
+  });
+};
+
 const atualizarEmail = async function (usuario, email) {
   await Usuario.update(usuario, {
     where: { email: email.email },
@@ -54,4 +60,5 @@ module.exports = {
   encontrarUmPorWhere: encontrarUmPorWhere,
   deletar: deletar,
   atualizarEmail: atualizarEmail,
+  atualizarPorCodigo: atualizarPorCodigo,
 };
