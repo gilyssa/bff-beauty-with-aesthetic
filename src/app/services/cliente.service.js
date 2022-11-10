@@ -151,6 +151,52 @@ const encontrarPorId = async function (id) {
   return cliente;
 };
 
+const encontrarPorUsuario = async function (id) {
+  //nessa função precisamos pegar os dados do banco e descriptografar para mostrar na api
+  let cliente = await clienteRepository.encontrarPorUsuario({
+    usuario_id: id,
+  });
+
+  var clientesTodos = cliente.map(function (cliente) {
+    clienteNome = JSON.parse(cliente.nome);
+    clienteNomeDecipher = decrypt(clienteNome);
+
+    clienteEmail = JSON.parse(cliente.email);
+    clienteEmailDecipher = decrypt(clienteEmail);
+
+    clienteData_nascimento = JSON.parse(cliente.data_nascimento);
+    clienteData_nascimentoDecipher = decrypt(clienteData_nascimento);
+
+    cliente_CPF = JSON.parse(cliente.cpf);
+    clienteCPFDecipher = decrypt(cliente_CPF);
+
+    clienteTelefone = JSON.parse(cliente.telefone);
+    clienteTelefoneDecipher = decrypt(clienteTelefone);
+
+    clienteTipo_sanguineo = JSON.parse(cliente.tipo_sanguineo);
+    clienteTipo_sanguineoDecipher = decrypt(clienteTipo_sanguineo);
+
+    clienteAlergias = JSON.parse(cliente.alergias);
+    clienteAlergiasDecipher = decrypt(clienteAlergias);
+
+    return {
+      id: cliente.id,
+      usuario_id: cliente.usuario_id,
+      createdAt: cliente.createdAt,
+      updatedAt: cliente.updatedAt,
+      nome: clienteNomeDecipher,
+      email: clienteEmailDecipher,
+      data_nascimento: clienteData_nascimentoDecipher,
+      cpf: clienteCPFDecipher,
+      telefone: clienteTelefoneDecipher,
+      tipo_sanguineo: clienteTipo_sanguineoDecipher,
+      alergias: clienteAlergiasDecipher,
+    };
+  });
+
+  cliente = clientesTodos;
+  return cliente;
+};
 const deletar = async function (id) {
   const cliente = await clienteRepository.encontrarPorId(id);
 
@@ -168,4 +214,5 @@ module.exports = {
   encontrarTodos: encontrarTodos,
   encontrarPorId: encontrarPorId,
   deletar: deletar,
+  encontrarPorUsuario: encontrarPorUsuario,
 };

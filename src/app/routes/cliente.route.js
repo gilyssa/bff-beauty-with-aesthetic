@@ -20,6 +20,13 @@ router.get(
   clienteController.encontrarPorId,
 );
 
+router.get(
+  '/usuario/:id',
+  verifyJWT,
+  clienteValidator.encontrarPorId(),
+  clienteController.encontrarPorUsuario,
+);
+
 router.put(
   '/:id',
   verifyJWT,

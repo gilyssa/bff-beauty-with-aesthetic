@@ -5,7 +5,7 @@ module.exports = {
     username: process.env.DATABASE_USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
-    host: 'localhost',
+    host: 'mysql04-farm36.kinghost.net',
     dialect: 'mysql',
     logging: false,
     define: {

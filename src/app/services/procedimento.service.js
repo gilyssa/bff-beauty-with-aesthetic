@@ -42,6 +42,17 @@ const encontrarPorId = async function (id) {
   return procedimento;
 };
 
+const encontrarPorUsuario = async function (id) {
+  const procedimento = await procedimentoRepository.encontrarPorUsuario({
+    usuario_id: id,
+  });
+  if (!procedimento) {
+    return createError(404, 'Esse usuário não cadastrou procedimentos');
+  }
+
+  return procedimento;
+};
+
 const deletar = async function (id) {
   const procedimento = await procedimentoRepository.encontrarPorId(id);
 
@@ -59,4 +70,5 @@ module.exports = {
   encontrarTodos: encontrarTodos,
   encontrarPorId: encontrarPorId,
   deletar: deletar,
+  encontrarPorUsuario: encontrarPorUsuario,
 };

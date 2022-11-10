@@ -6,7 +6,7 @@ const app = express();
 
 const cors = require('cors');
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: '*',
 };
 app.use(cors(corsOptions));
 
@@ -27,5 +27,5 @@ app.use(handle404Error);
 app.use(handleError);
 
 app.listen(process.env.PORT || process.env.PORTA, () => {
-  console.log('Api escutando na porta 3001!');
+  console.log('Api escutando na porta 3000!');
 });

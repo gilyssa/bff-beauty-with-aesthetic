@@ -1,8 +1,8 @@
 const clienteService = require('../services/cliente.service');
 const { validationResult } = require('express-validator');
 const createError = require('http-errors');
-const { validarCPF, validarTelefone } = require('../utils/errorMessage');
-const parse = require('telefone/parse');
+const { validarCPF } = require('../utils/errorMessage');
+const validarTelefone = require('telefone/parse');
 
 const criar = async function (req, res, next) {
   try {
@@ -22,15 +22,7 @@ const criar = async function (req, res, next) {
       });
     }
 
-    //const validacaoTelefone = parse(req.body.telefone);
-
-    //if (!validacaoTelefone) {
-    //  throw createError(422, {
-    //    message: 'Telefone inválido.',
-    //  });
-    //}
-
-    const validacaoTelefone = parse(req.body.telefone);
+    const validacaoTelefone = validarTelefone(req.body.telefone);
 
     if (!validacaoTelefone) {
       throw createError(422, {
@@ -108,6 +100,28 @@ const encontrarPorId = async function (req, res, next) {
   }
 };
 
+const encontrarPorUsuario = async function (req, res, next) {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      throw createError(422, {
+        errors: errors.array(),
+      });
+    }
+
+    const response = await clienteService.encontrarPorUsuario(req.params.id);
+
+    if (response && response.message) {
+      throw response;
+    }
+
+    res.send(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deletar = async function (req, res, next) {
   try {
     const errors = validationResult(req);
@@ -139,4 +153,5 @@ module.exports = {
   encontrarPorId: encontrarPorId,
   atualizar: atualizar,
   deletar: deletar,
+  encontrarPorUsuario: encontrarPorUsuario,
 };

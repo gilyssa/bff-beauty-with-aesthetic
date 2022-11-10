@@ -82,6 +82,30 @@ const encontrarPorId = async function (req, res, next) {
   }
 };
 
+const encontrarPorUsuario = async function (req, res, next) {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      throw createError(422, {
+        errors: errors.array(),
+      });
+    }
+
+    const response = await procedimentoService.encontrarPorUsuario(
+      req.params.id,
+    );
+
+    if (response && response.message) {
+      throw response;
+    }
+
+    res.send(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deletar = async function (req, res, next) {
   try {
     const errors = validationResult(req);
@@ -113,4 +137,5 @@ module.exports = {
   encontrarPorId: encontrarPorId,
   atualizar: atualizar,
   deletar: deletar,
+  encontrarPorUsuario: encontrarPorUsuario,
 };

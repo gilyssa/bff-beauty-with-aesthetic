@@ -25,6 +25,12 @@ router.get(
   procedimentoController.encontrarPorId,
 );
 
+router.get(
+  '/usuario/:id',
+  procedimentoValidator.encontrarPorId(),
+  procedimentoController.encontrarPorUsuario,
+);
+
 router.put(
   '/:id',
   verifyJWT,
