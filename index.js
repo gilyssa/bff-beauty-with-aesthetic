@@ -26,6 +26,6 @@ app.use('/api/clientes', clienteRoute);
 app.use(handle404Error);
 app.use(handleError);
 
-app.listen(process.env.PORT || process.env.PORTA, () => {
+app.listen(3000, () => {
   console.log('Api escutando na porta 3000!');
 });

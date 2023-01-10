@@ -16,7 +16,7 @@ const criar = async function (usuario) {
     return createError(409, 'Usuário já existe');
   }
 
-  usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT);
+  usuario.senha = await bcrypt.hash(usuario.senha, 10);
   const usuarioCriado = await usuarioRepository.criar(usuario);
 
   return {
@@ -49,7 +49,7 @@ const login = async function (usuario) {
     {
       id: usuarioLogin.id,
     },
-    process.env.SECRET,
+    'segredo',
     { expiresIn: 3600 },
   );
   // 1 hora 3600
@@ -97,7 +97,7 @@ const atualizarSenha = async function (usuario, id) {
     return createError(404, 'Usuário não existe');
   }
 
-  usuario.senha = await bcrypt.hash(usuario.senha, ~~process.env.SALT);
+  usuario.senha = await bcrypt.hash(usuario.senha, 10);
   await usuarioRepository.atualizar(usuario, id);
 
   return await usuarioRepository.encontrarPorId(id);
@@ -142,7 +142,7 @@ const recovery = async function (usuario) {
   }
 
   let usuarioSenha = {
-    senha: await bcrypt.hash(usuario.senha, ~~process.env.SALT),
+    senha: await bcrypt.hash(usuario.senha, 10),
   };
 
   await usuarioRepository.atualizarPorCodigo(usuarioSenha, usuario.codigo);
