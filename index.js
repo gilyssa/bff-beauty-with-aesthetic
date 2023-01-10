@@ -5,7 +5,12 @@ const handle404Error = require('./src/app/middlewares/handle404Error');
 const app = express();
 
 const cors = require('cors');
-app.options('*', cors());
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 const usuarioRoute = require('./src/app/routes/usuario.route');
 const procedimentoRoute = require('./src/app/routes/procedimento.route');
