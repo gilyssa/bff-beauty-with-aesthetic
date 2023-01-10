@@ -7,7 +7,7 @@ const verifyJWT = function (req, res, next) {
   if (!token)
     return res.status(401).send(['Acesso não permitido. Faça login novamente']);
 
-  verify(token, 'segredo', (err, decoded) => {
+  verify(token, process.env.SECRET, (err, decoded) => {
     if (err)
       return res
         .status(401)
