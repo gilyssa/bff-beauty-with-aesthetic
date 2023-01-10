@@ -19,7 +19,7 @@ const atualizar = async function (procedimento, id) {
   const existeProcedimento = await procedimentoRepository.encontrarPorId(id);
 
   if (!existeProcedimento) {
-    return createError(404, 'Usuário não existe');
+    return createError(404, 'Procedimento não existe');
   }
 
   await procedimentoRepository.atualizar(procedimento, id);
