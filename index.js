@@ -5,10 +5,7 @@ const handle404Error = require('./src/app/middlewares/handle404Error');
 const app = express();
 
 const cors = require('cors');
-var corsOptions = {
-  origin: 'http://localhost:3001',
-};
-app.use(cors(corsOptions));
+app.options('*', cors());
 
 const usuarioRoute = require('./src/app/routes/usuario.route');
 const procedimentoRoute = require('./src/app/routes/procedimento.route');
