@@ -48,11 +48,7 @@ function decrypt(text) {
 }
 
 // Encrypts output
-//var output = encrypt('TESTE');
-//console.log(output);
-
 // Decrypts output
-//console.log(decrypt(output));
 
 module.exports = {
   encrypt: encrypt,
