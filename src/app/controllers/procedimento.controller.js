@@ -18,7 +18,9 @@ const criar = async function (req, res, next) {
       throw response;
     }
 
-    res.send(['Procedimento ' + response.nome + ' criado com sucesso!']);
+    res.send({
+      messageResponse: 'Procedimento ' + response.nome + ' criado com sucesso!',
+    });
   } catch (error) {
     return next(error);
   }
@@ -45,7 +47,9 @@ const atualizar = async function (req, res, next) {
       throw response;
     }
 
-    res.send(response);
+    res.send({
+      messageResponse: 'Procedimento Alterado',
+    });
   } catch (error) {
     return next(error);
   }

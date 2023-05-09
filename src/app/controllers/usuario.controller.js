@@ -67,7 +67,10 @@ const atualizarNome = async function (req, res, next) {
       throw response;
     }
 
-    res.send(response);
+    res.send({
+      nome: response.nome,
+      messageResponse: 'Nome alterado',
+    });
   } catch (error) {
     return next(error);
   }
@@ -94,7 +97,10 @@ const atualizarEmail = async function (req, res, next) {
       throw response;
     }
 
-    res.send(response);
+    res.send({
+      email: response.email,
+      messageResponse: 'Email alterado',
+    });
   } catch (error) {
     return next(error);
   }
@@ -121,7 +127,9 @@ const atualizarSenha = async function (req, res, next) {
       throw response;
     }
 
-    res.send(response);
+    res.send({
+      messageResponse: 'Senha alterada',
+    });
   } catch (error) {
     return next(error);
   }

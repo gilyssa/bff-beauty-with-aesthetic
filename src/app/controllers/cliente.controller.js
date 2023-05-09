@@ -18,7 +18,7 @@ const criar = async function (req, res, next) {
 
     if (!validacaoCPF) {
       throw createError(422, {
-        message: 'Cpf inválido.',
+        messageResponse: 'Cpf inválido.',
       });
     }
 
@@ -26,7 +26,7 @@ const criar = async function (req, res, next) {
 
     if (!validacaoTelefone) {
       throw createError(422, {
-        message: 'Telefone inválido.',
+        messageResponse: 'Telefone inválido.',
       });
     }
 
@@ -36,7 +36,7 @@ const criar = async function (req, res, next) {
       throw response;
     }
 
-    res.send(['Cliente criado com sucesso!']);
+    res.send({ messageResponse: 'Cliente criado com sucesso!' });
   } catch (error) {
     return next(error);
   }

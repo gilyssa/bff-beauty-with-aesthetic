@@ -18,7 +18,10 @@ const criar = async function (req, res, next) {
       throw response;
     }
 
-    res.send(['Procedimento ' + response.id + ' adicionado com sucesso!']);
+    res.send({
+      messageResponse:
+        'Procedimento ' + response.id + ' adicionado ao cliente com sucesso!',
+    });
   } catch (error) {
     return next(error);
   }
