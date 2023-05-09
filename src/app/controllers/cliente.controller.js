@@ -1,12 +1,11 @@
 const clienteService = require('../services/cliente.service');
 const { validationResult } = require('express-validator');
 const createError = require('http-errors');
-const { validarCPF } = require('../utils/errorMessage');
-const validarTelefone = require('telefone/parse');
 
 const criar = async function (req, res, next) {
   try {
     const errors = validationResult(req);
+    console.log('error', errors);
 
     if (!errors.isEmpty()) {
       throw createError(422, {
@@ -14,23 +13,8 @@ const criar = async function (req, res, next) {
       });
     }
 
-    const validacaoCPF = validarCPF(req.body.cpf);
-
-    if (!validacaoCPF) {
-      throw createError(422, {
-        messageResponse: 'Cpf inválido.',
-      });
-    }
-
-    const validacaoTelefone = validarTelefone(req.body.telefone);
-
-    if (!validacaoTelefone) {
-      throw createError(422, {
-        messageResponse: 'Telefone inválido.',
-      });
-    }
-
     const response = await clienteService.criar(req.body);
+    console.log('response', response);
 
     if (response && response.message) {
       throw response;
@@ -52,12 +36,7 @@ const atualizar = async function (req, res, next) {
       });
     }
 
-    const response = await clienteService.atualizar(
-      {
-        nome: req.body.nome,
-      },
-      req.params.id,
-    );
+    const response = await clienteService.atualizar(req.body, req.params.id);
 
     if (response && response.message) {
       throw response;
@@ -139,7 +118,6 @@ const deletar = async function (req, res, next) {
     }
 
     res.send({
-      nome: response.nome,
       messageResponse: 'Cliente Deletado',
     });
   } catch (error) {

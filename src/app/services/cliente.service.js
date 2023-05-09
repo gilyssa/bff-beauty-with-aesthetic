@@ -2,6 +2,9 @@ const clienteRepository = require('../repositories/cliente.repository');
 const createError = require('http-errors');
 require('dotenv').config();
 const { decrypt, encrypt } = require('../utils/encryptDecrypt');
+const { validarCPF } = require('../utils/errorMessage');
+const validarTelefone = require('telefone/parse');
+
 // Esse service de clientes ficou maior pois precisava da criptografia no banco, se analisarmos no banco todos os dados são criptografados
 
 const criar = async function (cliente) {
@@ -9,6 +12,22 @@ const criar = async function (cliente) {
   let clientes = await clienteRepository.encontrarTodosPorWhere({
     usuario_id: cliente.usuario_id,
   });
+  console.log('clientes', clientes);
+
+  const validacaoCPF = validarCPF(cliente.cpf);
+  console.log('validacaoCPF', validacaoCPF);
+
+  if (!validacaoCPF) {
+    throw createError(422, 'Cpf inválido.');
+  }
+
+  const validacaoTelefone = validarTelefone(cliente.telefone);
+  console.log('validacaoTelefone', validacaoTelefone);
+
+  if (!validacaoTelefone) {
+    throw createError(422, 'Telefone inválido.');
+  }
+
   //populamos uma lista com todos os cpf's existentes
   var listaCPF = clientes.map(function (clientes) {
     cliente_CPF = JSON.parse(clientes.cpf);
@@ -27,6 +46,13 @@ const criar = async function (cliente) {
   if (clienteEncontrado != undefined) {
     return createError(409, 'Cliente já existe');
   }
+
+  //salvando no banco os dados criptografados
+  const repositoryCriado = await clienteRepository.criar(criptografia(cliente));
+  return repositoryCriado;
+};
+
+const criptografia = function (cliente) {
   //fazendo a criptografia dos dados
   clienteNome = cliente.nome;
   clienteNomeCipher = encrypt(clienteNome);
@@ -55,10 +81,7 @@ const criar = async function (cliente) {
   clienteAlergias = cliente.alergias;
   clienteAlergiasCipher = encrypt(clienteAlergias);
   cliente.alergias = JSON.stringify(clienteAlergiasCipher);
-
-  //salvando no banco os dados criptografados
-  const repositoryCriado = await clienteRepository.criar(cliente);
-  return repositoryCriado;
+  return cliente;
 };
 
 const atualizar = async function (cliente, id) {
@@ -67,10 +90,12 @@ const atualizar = async function (cliente, id) {
   if (!existeCliente) {
     return createError(404, 'Usuário não existe');
   }
+  console.log('cliente atualizar', criptografia(cliente));
+  await clienteRepository.atualizar(criptografia(cliente), id);
 
-  await clienteRepository.atualizar(cliente, id);
-
-  return await clienteRepository.encontrarPorId(id);
+  return {
+    messageAprove: 'Cliente alterado com sucesso',
+  };
 };
 
 const encontrarTodos = async function () {

@@ -1,4 +1,5 @@
 const { Procedimento } = require('../../database/models/index');
+const { Op } = require('sequelize');
 
 const criar = async function (procedimento) {
   const procedimentoCriado = await Procedimento.create(procedimento);
@@ -28,6 +29,17 @@ const encontrarUmPorWhere = async function (where) {
   return procedimento;
 };
 
+const encontrarPorWhere = async function (where) {
+  const procedimento = await Procedimento.findAll({
+    where: {
+      [Op.and]: [{ usuario_id: where.usuario_id }, { nome: where.nome }],
+    },
+  });
+  console.log(procedimento);
+
+  return procedimento;
+};
+
 const encontrarPorUsuario = async function (where) {
   const procedimento = await Procedimento.findAll({
     where: where,
@@ -47,4 +59,5 @@ module.exports = {
   encontrarUmPorWhere: encontrarUmPorWhere,
   deletar: deletar,
   encontrarPorUsuario: encontrarPorUsuario,
+  encontrarPorWhere: encontrarPorWhere,
 };

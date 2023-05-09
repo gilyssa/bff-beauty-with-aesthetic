@@ -3,11 +3,12 @@ const createError = require('http-errors');
 require('dotenv').config();
 
 const criar = async function (procedimento) {
-  const existeProcedimento = await procedimentoRepository.encontrarUmPorWhere({
+  const existeProcedimento = await procedimentoRepository.encontrarPorWhere({
+    usuario_id: procedimento.usuario_id,
     nome: procedimento.nome,
   });
 
-  if (existeProcedimento) {
+  if (existeProcedimento.length > 0) {
     return createError(409, 'Procedimento já existe');
   }
 

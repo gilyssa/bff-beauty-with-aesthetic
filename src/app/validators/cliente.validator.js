@@ -2,7 +2,7 @@ const { body, param } = require('express-validator');
 const { validatorMessage } = require('../utils/errorMessage');
 
 const criar = function () {
-  return [body('nome', validatorMessage('Nome')).exists().bail().isString()];
+  return [body('cpf', validatorMessage('CPF')).exists().bail().isString()];
 };
 
 const atualizar = function () {
